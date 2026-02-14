@@ -9,7 +9,7 @@ app = FastAPI()
 
 # --- Configuration (Key variables for SR&ED experimentation) ---
 # [Experiment Log] Lowered the PITCH_THRESHOLD for initial environment calibration
-PITCH_THRESHOLD = 300.0  # Adjusted from 100.0 to 300.0 for better human voice detection
+PITCH_THRESHOLD = 400.0  # Adjusted from 100.0 to 300.0 for better human voice detection
 STRESS_LIMIT = 50
 SAMPLING_RATE = 44100  
 TALK_COOLDOWN = 3.0 # Reduced cooldown for more responsive testing
@@ -52,6 +52,8 @@ async def websocket_endpoint(websocket: WebSocket):
             # print(f"DEBUG: Current Vol: {volume:.4f}") 
 
             # Noise Filtering: Lowered threshold from 0.02 to 0.005 for high sensitivity
+            # 너무 낮으면: 주변 소음에도 화면이 변합니다.
+            # 너무 높으면: 아이가 작게 말할 때 인식을 못 합니다.
             if volume > 0.005: 
                 # 4. Frequency Analysis (FFT)
                 fft_spectrum = np.fft.rfft(audio_array)
